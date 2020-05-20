@@ -4,24 +4,24 @@ from django.http import HttpResponse
 
 def home_page(request):
     context = {
-        "title": "hello i am anil",
-        "content": "welcome to the home page"
+        "title": "Hello, I am Anil Choudhary.",
+        "content": "Welcome to the Homepage."
     }
     return render(request, "home_page.html", context)
 
 
 def about_page(request):
     context = {
-        "title": "about_page",
-        "content": "welcome to the about page"
+        "title": "About page",
+        "content": "Welcome to the about page"
     }
     return render(request, "home_page.html", context)
 
 
 def contact_page(request):
     context = {
-        "title": "contact_page",
-        "content": "welcome to the contact page"
+        "title": "Contact page",
+        "content": "Welcome to the contact page"
     }
     if request.method == "POST":
         # print(request.POST)
@@ -33,7 +33,7 @@ def contact_page(request):
 
 def shop_page(request):
     context = {
-    "title": "shop page",
-    "content": "welcome to the shop page"
+    "title": "Shop page",
+    "content": "Welcome to the shop page"
     }
     return render(request, "home_page.html", context)
