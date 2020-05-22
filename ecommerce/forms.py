@@ -1,4 +1,7 @@
 from django import forms
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 class ContactForm(forms.Form):
@@ -22,3 +25,34 @@ class ContactForm(forms.Form):
 class LoginForm(forms.Form):
     username = forms.CharField()
     password = forms.CharField(max_length=32, widget=forms.PasswordInput)
+
+
+class RegisterForm(forms.Form):
+    username = forms.CharField()
+    email = forms.EmailField()
+    password = forms.CharField(max_length=32, widget=forms.PasswordInput)
+    password2 = forms.CharField(
+        label='confirm password', max_length=32, widget=forms.PasswordInput)
+
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        qs = User.objects.filter(username=username)
+        if qs.exists():
+            raise forms.ValidationError("username has taken")
+        return username
+
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        qs = User.objects.filter(email=email)
+        if qs.exists():
+            raise forms.ValidationError("email has taken")
+        return email
+
+    def clean(self):
+        data = self.cleaned_data
+        password = self.cleaned_data['password']
+        password2 = self.cleaned_data['password2']
+        if (password2 != password):
+            raise forms.ValidationError("Password must match.")
+        return data
